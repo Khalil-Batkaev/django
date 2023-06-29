@@ -29,6 +29,12 @@ sourse ./{name_env}/bin/activate
 pip3 install -r requirements.txt
 ```
 
+## Создание проекта.
+
+```sh
+django-admin startproject {name_project}
+```
+
 ## Запуск приложения.
 
 ```sh
