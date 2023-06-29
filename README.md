@@ -1,0 +1,2 @@
+# django
+GB training project
