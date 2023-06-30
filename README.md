@@ -35,6 +35,12 @@ pip3 install -r requirements.txt
 django-admin startproject {name_project}
 ```
 
+## Старт приложения
+
+```sh
+python manage.py startapp {name_app}
+```
+
 ## Запуск приложения.
 
 ```sh
