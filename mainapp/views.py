@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 
@@ -27,4 +29,14 @@ class LoginPageView(TemplateView):
 
 
 class NewsPageView(TemplateView):
+    NEWS_QTY = 5
+
     template_name = 'mainapp/news.html'
+
+    def get_context_data(self, **kwargs):
+        contex = super().get_context_data(**kwargs)
+
+        contex['range'] = range(self.NEWS_QTY)
+        contex['news_date'] = datetime.now()
+
+        return contex
