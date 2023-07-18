@@ -3,6 +3,8 @@ from datetime import datetime
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 
+from mainapp import models as mainapp_models
+
 
 def hello(request):
     return HttpResponse('hello!')
@@ -34,9 +36,8 @@ class NewsPageView(TemplateView):
     template_name = 'mainapp/news.html'
 
     def get_context_data(self, **kwargs):
-        contex = super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
-        contex['range'] = range(self.NEWS_QTY)
-        contex['news_date'] = datetime.now()
+        context["news_qs"] = mainapp_models.News.objects.all()[:5]
 
-        return contex
+        return context
