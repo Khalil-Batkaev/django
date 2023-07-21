@@ -7,7 +7,7 @@ app_name = MainappConfig.name
 
 urlpatterns = [
     path('hello/', views.hello),
-    path('', views.MainPageView.as_view()),
+    path('', views.MainPageView.as_view(), name="main_page"),
     path('contacts/', views.ContactsPageView.as_view()),
     path('courses_list/', views.CoursesPageView.as_view()),
     path('doc_site/', views.DocPageView.as_view()),
