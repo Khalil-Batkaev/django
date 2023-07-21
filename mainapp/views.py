@@ -26,10 +26,6 @@ class DocPageView(TemplateView):
     template_name = 'mainapp/do_site.html'
 
 
-class LoginPageView(TemplateView):
-    template_name = 'mainapp/login.html'
-
-
 class NewsPageView(TemplateView):
     NEWS_QTY = 5
 
