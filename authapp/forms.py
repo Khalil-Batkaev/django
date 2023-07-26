@@ -1,10 +1,9 @@
-from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm, UsernameField
 import os
 from django import forms
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm, UsernameField
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -47,7 +46,6 @@ class CustomUserChangeForm(forms.ModelForm):
 
     def clean_avatar(self):
         arg_as_str = "avatar"
-
         if arg_as_str in self.changed_data and self.instance.avatar:
             if os.path.exists(self.instance.avatar.path):
                 os.remove(self.instance.avatar.path)
