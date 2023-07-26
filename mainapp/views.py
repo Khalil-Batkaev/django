@@ -1,39 +1,76 @@
-from datetime import datetime
-
-from django.http import HttpResponse
-from django.views.generic import TemplateView
-
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    TemplateView,
+    UpdateView,
+)
 from mainapp import models as mainapp_models
-
-
-def hello(request):
-    return HttpResponse('hello!')
 
 
 class MainPageView(TemplateView):
     template_name = 'mainapp/index.html'
 
 
-class ContactsPageView(TemplateView):
-    template_name = 'mainapp/contacts.html'
+class NewsListView(ListView):
+    model = mainapp_models.News
+    paginate_by = 5
+
+    def get_queryset(self):
+        return super().get_queryset().filter(is_deleted=False)
 
 
-class CoursesPageView(TemplateView):
-    template_name = 'mainapp/courses_list.html'
+class NewsCreateView(PermissionRequiredMixin, CreateView):
+    model = mainapp_models.News
+    fields = "__all__"
+    success_url = reverse_lazy("mainapp:news")
+    permission_required = ("mainapp.add_news",)
 
 
-class DocPageView(TemplateView):
-    template_name = 'mainapp/do_site.html'
+class NewsDetailView(DetailView):
+    model = mainapp_models.News
 
 
-class NewsPageView(TemplateView):
-    NEWS_QTY = 5
+class NewsUpdateView(PermissionRequiredMixin, UpdateView):
+    model = mainapp_models.News
+    fields = "__all__"
+    success_url = reverse_lazy("mainapp:news")
+    permission_required = ("mainapp.change_news",)
 
-    template_name = 'mainapp/news.html'
+
+class NewsDeleteView(PermissionRequiredMixin, DeleteView):
+    model = mainapp_models.News
+    success_url = reverse_lazy("mainapp:news")
+    permission_required = ("mainapp.delete_news",)
+
+
+class CoursesListView(TemplateView):
+    template_name = "mainapp/courses_list.html"
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        context["news_qs"] = mainapp_models.News.objects.all()[:5]
-
+        context = super(CoursesListView, self).get_context_data(**kwargs)
+        context["objects"] = mainapp_models.Courses.objects.all()[:7]
         return context
+
+
+class CoursesDetailView(TemplateView):
+    template_name = "mainapp/courses_detail.html"
+
+    def get_context_data(self, pk=None, **kwargs):
+        context = super(CoursesDetailView, self).get_context_data(**kwargs)
+        context["course_object"] = get_object_or_404(mainapp_models.Courses, pk=pk)
+        context["lessons"] = mainapp_models.Lesson.objects.filter(course=context["course_object"])
+        context["teachers"] = mainapp_models.CourseTeachers.objects.filter(course=context["course_object"])
+        return context
+
+
+class ContactsPageView(TemplateView):
+    template_name = "mainapp/contacts.html"
+
+
+class DocSitePageView(TemplateView):
+    template_name = "mainapp/doc_site.html"
