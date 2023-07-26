@@ -8,7 +8,7 @@ class NewsAdmin(admin.ModelAdmin):
     list_display = ["id", "title", "is_deleted"]
     search_fields = ["title", "description", "body"]
     actions = ["mark_deleted"]
-    
+
     def mark_deleted(self, request, queryset):
         queryset.update(is_deleted=True)
 
