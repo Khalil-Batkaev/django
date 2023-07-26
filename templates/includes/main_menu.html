@@ -16,7 +16,7 @@
                 </li>
                 <li class="nav-item
                             {% if request.resolver_match.view_name == 'mainapp:mainapp.views.CoursesPageView' %}active{% endif %}">
-                    <a class="nav-link" href="/mainapp/courses_list">Курсы</a>
+                    <a class="nav-link" href="/mainapp/courses">Курсы</a>
                 </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
