@@ -21,9 +21,13 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         _("username"),
         max_length=150,
         unique=True,
-        help_text=_("Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."),
+        help_text=_(
+            "Required. 150 characters or fewer. ASCII letters and digits only."
+        ),
         validators=[username_validator],
-        error_messages={"unique": _("A user with that username already exists."), },
+        error_messages={
+            "unique": _("A user with that username already exists."),
+        },
     )
     first_name = models.CharField(_("first name"), max_length=150, blank=True)
     last_name = models.CharField(_("last name"), max_length=150, blank=True)
